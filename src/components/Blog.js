@@ -1,18 +1,18 @@
-import { useState } from "react"
+import { useState } from 'react'
 //import BlogToggle from "./BlogToggle" might export later
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, addLike, handleDelete, user }) => {
   const [showBlogDetails, setBlogDetails] = useState(false)
-  const buttonLabel = showBlogDetails ? "hide" : "view"
+  const buttonLabel = showBlogDetails ? 'hide' : 'view'
 
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
-    border: "solid",
+    border: 'solid',
     borderWidth: 1,
     marginBottom: 5,
   }
-  const viewDetails = { display: showBlogDetails ? "" : "none" }
+  const viewDetails = { display: showBlogDetails ? '' : 'none' }
 
   const toggleVisibility = () => {
     if (showBlogDetails === true) {
@@ -22,22 +22,29 @@ const Blog = ({ blog }) => {
     }
   }
 
-  const handleLike = (event) => {
-    console.log("like")
+  const deleteBlog = () => {
+    return (
+      <div>
+        {user.name === blog.user.name && (
+          <button onClick={handleDelete}>Delete</button>
+        )}
+      </div>
+    )
   }
 
   return (
     <div style={blogStyle}>
       <div>
-        {blog.title} - {blog.author}{" "}
+        {blog.title} - {blog.author}{' '}
         <button onClick={toggleVisibility}>{buttonLabel}</button>
       </div>
       <div style={viewDetails}>
         <div>{blog.url}</div>
         <div>
-          {blog.likes} <button onClick={handleLike}>like</button>
+          {blog.likes} <button onClick={addLike}>like</button>
         </div>
-        <div key={blog.id}>{blog.user.name}</div>
+        <div>{blog.user.name}</div>
+        <div>{user !== null && deleteBlog()}</div>
       </div>
     </div>
   )

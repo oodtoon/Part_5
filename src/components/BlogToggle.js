@@ -8,9 +8,9 @@ const BlogToggle = (props) => {
 
   const toggleVisibility = () => {
     if (visible === true) {
-        setVisible(false)
+      setVisible(false)
     } else {
-        setVisible(true)
+      setVisible(true)
     }
   }
 

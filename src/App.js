@@ -109,21 +109,13 @@ const App = () => {
 
   const addLikeTo = (id) => {
     const blog = blogs.find((b) => b.id === id)
-    console.log('liked', blog)
     const likedBlog = { ...blog, likes: blog.likes + 1 }
-    console.log(likedBlog)
 
-    blogService
-      .update(id, likedBlog)
-      .then((returnedBlog) => {
-        setBlogs(
-          blogs.map((blog) =>
-            blog.id !== id ? blog : { ...returnedBlog, user }
-          )
-        )
-
-        console.log('returned', returnedBlog)
-      })
+    blogService.update(id, likedBlog).then((returnedBlog) => {
+      setBlogs(
+        blogs.map((blog) => (blog.id !== id ? blog : { ...returnedBlog, user }))
+      )
+    })
   }
 
   const logoutForm = () => <button onClick={handleLogout}>log out</button>

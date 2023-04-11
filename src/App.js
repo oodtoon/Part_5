@@ -118,7 +118,7 @@ const App = () => {
     })
   }
 
-  const logoutForm = () => <button onClick={handleLogout}>log out</button>
+  const logoutForm = () => <button id="log-out" onClick={handleLogout}>log out</button>
 
   return (
     <div>
@@ -149,7 +149,8 @@ const App = () => {
       )}
 
       <h2>blogs</h2>
-      {blogs.map((blog) => (
+      {blogs === null && <div>No Blogs</div>}
+      {blogs !== null && blogs.map((blog) => (
         <Blog
           key={blog.id}
           blog={blog}

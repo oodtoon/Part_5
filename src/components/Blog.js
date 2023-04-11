@@ -1,5 +1,4 @@
 import { useState } from 'react'
-//import BlogToggle from "./BlogToggle" might export later
 
 const Blog = ({ blog, addLike, handleDelete, user }) => {
   const [showBlogDetails, setBlogDetails] = useState(false)
@@ -34,12 +33,12 @@ const Blog = ({ blog, addLike, handleDelete, user }) => {
 
   return (
     <div style={blogStyle} className='blog'>
-      <div>
+      <span>
         {blog.title} - {blog.author}{' '}
         <button onClick={toggleVisibility}>{buttonLabel}</button>
-      </div>
+      </span>
       <div style={viewDetails} className='blog-details'>
-        <div>{blog.url}</div>
+        <span>{blog.url}</span>
         <div>
           {blog.likes} <button onClick={addLike} id="like">like</button>
         </div>

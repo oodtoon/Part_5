@@ -114,6 +114,8 @@ describe('Blog app', function () {
   })
   describe('liking blogs', function () {
     beforeEach(function () {
+      cy.login({ username: 'test12', password: 'password' })
+
       cy.createBlog({
         title: 'a blog created by cypress',
         author: 'Dwayne the Rock Johnson',
@@ -124,19 +126,31 @@ describe('Blog app', function () {
         author: 'Kevin Hart',
         url: 'www.tooshort.org',
       })
-
-      cy.get('#username').type('test12')
-      cy.get('#password').type('password')
-
-      cy.get('#login-btn').click()
-      cy.contains('view').click()
+      cy.createBlog({
+        title: 'a worse blog',
+        author: 'cypress',
+        url: 'https://www.test.com/',
+      })
     })
 
-    it.only('highest liked blog is at top', function () {
-      cy.contains('a better blog').contains('like').click()
-      cy.contains('1')
-      cy.contains('a better blog').contains('like').click()
-      cy.contains('2')
+    it.only('highest liked blog is at top', async function () {
+      cy.contains('a better blog').contains('view').click()
+
+      cy.contains('a better blog').parent().contains('like').as('theButton')
+      cy.get('@theButton').click().wait(500).click().wait(500)
+      cy.contains('a better blog').parent().contains('hide').click()
+
+      cy.contains('a blog created by cypress').contains('view').click()
+
+      cy.contains('a blog created by cypress').parent().contains('like').as('secondButton')
+      cy.get('@secondButton').click().wait(500)
+      cy.contains('a blog created by cypress').parent().contains('hide').click()
+
+      cy.reload()
+
+      cy.get('.blog').eq(0).should('contain', 'a better blog')
+      cy.get('.blog').eq(1).should('contain', 'a blog created by cypress')
+      cy.get('.blog').eq(2).should('contain', 'a worse blog')
     })
   })
 })
